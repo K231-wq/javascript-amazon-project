@@ -32,7 +32,7 @@ function renderHtml(){
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -67,6 +67,11 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.productId;
 
+        const selectorElement = document.querySelector(`.js-quantity-selector-${productId}`);
+        let selectedValue = Number(selectorElement.value);
+        console.log("selected value " + selectedValue);
+
+
         let matchingItem;
 
         cart.forEach((item) => {
@@ -76,11 +81,11 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
         })
 
         if(matchingItem){
-            matchingItem.quantity += 1;
+            matchingItem.quantity += selectedValue;
         }else{
             cart.push({
                 productId: productId,
-                quantity: 1
+                quantity: selectedValue
             });
         }
         
@@ -91,8 +96,14 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
         cart.forEach((item) => {
             cartQuantity += item.quantity;
         })
-        console.log(cartQuantity);
+        
+        console.log("total quantity " + cartQuantity);
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+        addToCard();
+        setTimeout(() => {
+            document.querySelector('.js-added-to-cart').style.opacity = 0;
+        }, 3000);
     })
 })
 
@@ -100,3 +111,8 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
 function priceCents(price){
     return (price/100).toFixed(2);
 };
+
+function addToCard(){
+    const added = document.querySelector('.js-added-to-cart');
+    added.style.opacity = 1;
+}
