@@ -48,7 +48,7 @@ function renderHtml(){
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart js-added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -96,14 +96,21 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
         cart.forEach((item) => {
             cartQuantity += item.quantity;
         })
-        
+
         console.log("total quantity " + cartQuantity);
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 
-        addToCard();
-        setTimeout(() => {
-            document.querySelector('.js-added-to-cart').style.opacity = 0;
+        let fadeTimeOut;
+        const addedCartMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+        if(fadeTimeOut){
+            clearTimeout(fadeTimeOut);
+        }
+        addedCartMessage.style.opacity = 1;
+        
+        fadeTimeOut = setTimeout(() => {
+            addedCartMessage.style.opacity = 0;
         }, 3000);
+        
     })
 })
 
@@ -112,7 +119,3 @@ function priceCents(price){
     return (price/100).toFixed(2);
 };
 
-function addToCard(){
-    const added = document.querySelector('.js-added-to-cart');
-    added.style.opacity = 1;
-}
