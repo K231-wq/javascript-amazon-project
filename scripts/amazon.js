@@ -8,7 +8,6 @@ renderHtml();
 function renderHtml(){
     
     products.forEach((product, index) => {
-        console.log(product.rating.star);
         productsListHtml += `
                 <div class="product-container">
           <div class="product-image-container">
@@ -17,7 +16,7 @@ function renderHtml(){
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${product.title}
+            ${product.name}
           </div>
 
           <div class="product-rating-container">
@@ -49,12 +48,12 @@ function renderHtml(){
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-to-cart-button" data-product-id="${product.id}">
             Add to Cart
           </button>
         </div>
@@ -62,7 +61,40 @@ function renderHtml(){
     });
     productGrid.innerHTML = productsListHtml;
 }
-console.log(productsListHtml);
+
+
+document.querySelectorAll('.js-to-cart-button').forEach((button) => {
+    button.addEventListener('click', () => {
+        const productId = button.dataset.productId;
+
+        let matchingItem;
+
+        cart.forEach((item) => {
+            if(item.productId === productId){
+                matchingItem = item;
+            }
+        })
+
+        if(matchingItem){
+            matchingItem.quantity += 1;
+        }else{
+            cart.push({
+                productId: productId,
+                quantity: 1
+            });
+        }
+        
+        console.log(cart);
+
+        let cartQuantity = 0;
+
+        cart.forEach((item) => {
+            cartQuantity += item.quantity;
+        })
+        console.log(cartQuantity);
+        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    })
+})
 
 //small function
 function priceCents(price){
