@@ -1,3 +1,6 @@
+import {cart, addToCart} from '../data/cart.js';
+import {products} from '../data/products.js';
+import {updateCartQuantities, fadeMessageOut} from './general.js';
 
 const productGrid = document.querySelector('.js-products-grid');
 
@@ -59,63 +62,35 @@ function renderHtml(){
         </div>
         `;
     });
-    productGrid.innerHTML = productsListHtml;
 }
+productGrid.innerHTML = productsListHtml;
 
 
 document.querySelectorAll('.js-to-cart-button').forEach((button) => {
     button.addEventListener('click', () => {
-        const productId = button.dataset.productId;
+      const productId = button.dataset.productId;
 
-        const selectorElement = document.querySelector(`.js-quantity-selector-${productId}`);
-        let selectedValue = Number(selectorElement.value);
-        console.log("selected value " + selectedValue);
+      // const selectorElement = document.querySelector(`.js-quantity-selector-${productId}`);
+      // let selectedValue = Number(selectorElement.value);
+      // console.log("selected value " + selectedValue);
 
-
-        let matchingItem;
-
-        cart.forEach((item) => {
-            if(item.productId === productId){
-                matchingItem = item;
-            }
-        })
-
-        if(matchingItem){
-            matchingItem.quantity += selectedValue;
-        }else{
-            cart.push({
-                productId: productId,
-                quantity: selectedValue
-            });
-        }
-        
-        console.log(cart);
-
-        let cartQuantity = 0;
-
-        cart.forEach((item) => {
-            cartQuantity += item.quantity;
-        })
-
-        console.log("total quantity " + cartQuantity);
-        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
-        let fadeTimeOut;
-        const addedCartMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-        if(fadeTimeOut){
-            clearTimeout(fadeTimeOut);
-        }
-        addedCartMessage.style.opacity = 1;
-        
-        fadeTimeOut = setTimeout(() => {
-            addedCartMessage.style.opacity = 0;
-        }, 3000);
+      addToCart(productId);
+      
+      updateCartQuantities();
+      fadeMessageOut(productId);
         
     })
 })
 
+
+
+
+
+
+
+
 //small function
 function priceCents(price){
-    return (price/100).toFixed(2);
+  return (price/100).toFixed(2);
 };
 
