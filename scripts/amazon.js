@@ -6,7 +6,7 @@ import { formatPrice } from './util/formatPriceCents.js';
 const productGrid = document.querySelector('.js-products-grid');
 
 let productsListHtml = ' ';
-
+updateCartQuantities();
 renderHtml();
 
 function renderHtml(){
