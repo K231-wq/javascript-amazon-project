@@ -82,13 +82,6 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
     })
 })
 
-
-
-
-
-
-
-
 //small function
 function priceCents(price){
   return (price/100).toFixed(2);
