@@ -1,4 +1,5 @@
-import { cart } from "../data/cart.js";
+import { cart } from "../../data/cart.js";
+
 //selector cart quantity added method
 export function selectedCartValue(productId){
 const selectorElement = document.querySelector(`.js-quantity-selector-${productId}`);

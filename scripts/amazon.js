@@ -1,6 +1,7 @@
 import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
-import {updateCartQuantities, fadeMessageOut} from './general.js';
+import {updateCartQuantities, fadeMessageOut} from './util/general.js';
+import { formatPrice } from './util/formatPriceCents.js';
 
 const productGrid = document.querySelector('.js-products-grid');
 
@@ -31,7 +32,7 @@ function renderHtml(){
           </div>
 
           <div class="product-price">
-            ${priceCents(product.priceCents)}
+            ${formatPrice(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
@@ -81,9 +82,4 @@ document.querySelectorAll('.js-to-cart-button').forEach((button) => {
         
     })
 })
-
-//small function
-function priceCents(price){
-  return (price/100).toFixed(2);
-};
 
