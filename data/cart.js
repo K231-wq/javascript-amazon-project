@@ -1,6 +1,6 @@
 import { selectedCartValue } from "../scripts/util/general.js";
 
-export let cart = [{
+export let cart = JSON.parse(localStorage.getItem('cart')) || [{
   productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
   quantity: 2,
 },{
@@ -8,27 +8,30 @@ export let cart = [{
   quantity: 1
 }];
 
+function saveToLocalStorage(){
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 export function addToCart(productId){
-    let matchingItem;
-  
-    let selectedValue = selectedCartValue(productId);
-  
-    cart.forEach((cartItem) => {
-    if(cartItem.productId === productId){
-      matchingItem = cartItem;
-      }
-    })
-  
-    if(matchingItem){
-      matchingItem.quantity += selectedValue;
-    }else{
-      cart.push({
-      productId: productId,
-      quantity: selectedValue
-      });
+  let matchingItem;
+
+  let selectedValue = selectedCartValue(productId);
+
+  cart.forEach((cartItem) => {
+  if(cartItem.productId === productId){
+    matchingItem = cartItem;
     }
-    console.log(cart);
+  })
+
+  if(matchingItem){
+    matchingItem.quantity += selectedValue;
+  }else{
+    cart.push({
+    productId: productId,
+    quantity: selectedValue
+    });
   }
+  saveToLocalStorage();
+}
 
 
 export function removeFromCart(productId){
@@ -39,4 +42,5 @@ export function removeFromCart(productId){
       }  
   });
   cart = newCart;
+  saveToLocalStorage();
 }
