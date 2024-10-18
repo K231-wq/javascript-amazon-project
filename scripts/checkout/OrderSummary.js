@@ -33,7 +33,9 @@ export function renderOrderSummary(){
 
         cartSummaryHtml +=
         `
-            <div class="cart-item-container js-cart-item-container-${productId}">
+            <div class="cart-item-container 
+            js-cart-item-container
+            js-cart-item-container-${productId}">
                 <div class="delivery-date">
                     ${dateString}
                 </div>
@@ -76,7 +78,7 @@ export function renderOrderSummary(){
                 </div>
             </div>
         `;
-    });
+});
 
     function deliveryOptionsHtml(matchingProduct, cartItem){
         let html = '';
